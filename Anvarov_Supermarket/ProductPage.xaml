@@ -1,0 +1,98 @@
+﻿<Page x:Class="Anvarov_Supermarket.ProductPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Anvarov_Supermarket"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ProductPage" Background="#DFE0DF" IsVisibleChanged="Page_IsVisibleChanged">
+
+    
+    <Grid>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="45"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Background="White"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBox Name="productSearch" Height="35" TextChanged="productSearch_TextChanged" Margin="10 0 10 0"/>
+            <ComboBox Name="FiltrCmbox" Height="35" Margin="10 0 10 0" SelectionChanged="FiltrCmbox_SelectionChanged"/>
+            <ComboBox Name="SortCmbox" Height="35" Margin="10 0 10 0" SelectionChanged="SortCmbox_SelectionChanged">
+                <TextBlock Text="По умолчанию"/>
+                <TextBlock Text="По возрастанию"/>
+                <TextBlock Text="По убыванию"/>
+            </ComboBox>
+            <Button Name="AddBtn" Content="Добавить" Click="AddBtn_Click" FontSize="20" Margin="10 0 10 0"/>
+        </StackPanel>
+
+        <ListView Name="PrductListView" Grid.Row="1" Margin="15" Background="White">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+
+                        <Image Width="150" Height="150" Grid.RowSpan="5" Grid.Column="0" HorizontalAlignment="Center">
+                            <Image.Source>
+                                <Binding Path="Product_Photo">
+                                    <Binding.TargetNullValue>
+                                        <ImageSource>
+                                            images/default1.png
+                                        </ImageSource>
+                                    </Binding.TargetNullValue>
+                                </Binding>
+                            </Image.Source>
+                        </Image>
+
+                        <Button Name="EditBtn" Content="Редактировать" Click="EditBtn_Click" FontSize="20" Grid.Column="0" Grid.Row="5"/>
+                        <TextBlock Text="{Binding Product_Title}" FontSize="20" Grid.Column="1" Grid.Row="0"/>
+                        <StackPanel Orientation="Horizontal" Margin="5" Grid.Column="1" Grid.Row="1">
+                            <TextBlock Text="Цена: " FontSize="15"/>
+                            <TextBlock Text="{Binding Product_Cost}" FontSize="15"/>
+                            <TextBlock Text=" руб." FontSize="15"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="5" Grid.Column="1" Grid.Row="2">
+                            <TextBlock Text="Производитель: " FontSize="15"/>
+                            <TextBlock Text="{Binding Product_CountryOfOrigin}" FontSize="15"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="5" Grid.Column="1" Grid.Row="3">
+                            <TextBlock Text="Отдел: " FontSize="15"/>
+                            <TextBlock Text="{Binding Product_Dep}" FontSize="15"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="5" Grid.Column="1" Grid.Row="4">
+                            <TextBlock Text="Срок годности: " FontSize="15"/>
+                            <TextBlock Text="{Binding Product_SrokGodnosty}" FontSize="15"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="5" Grid.Column="1" Grid.Row="5">
+                            <TextBlock Text="Условия хранения: " FontSize="15"/>
+                            <TextBlock Text="{Binding Product_StorageConditions}" FontSize="15"/>
+                        </StackPanel>
+
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <TextBlock Grid.Row="3" Background="White"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="5" HorizontalAlignment="Center">
+            <TextBlock Name="currentProdCount" FontSize="20"/>
+            <TextBlock Text=" из " FontSize="20"/>
+            <TextBlock Name="allProdCount" FontSize="20"/>
+        </StackPanel>
+        
+    </Grid>
+</Page>

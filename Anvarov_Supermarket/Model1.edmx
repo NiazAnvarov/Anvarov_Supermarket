@@ -1,0 +1,414 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище SupermarketModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="Department_Number" />
+          </Key>
+          <Property Name="Department_Number" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Department_Title" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Department_CountersNumber" Type="int" Nullable="false" />
+          <Property Name="Department_SellerCount" Type="int" Nullable="false" />
+          <Property Name="Department_HallNumber" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Employee_Number" />
+          </Key>
+          <Property Name="Employee_Number" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Firstname" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Patronymic" Type="nvarchar" MaxLength="250" />
+          <Property Name="Employee_Department" Type="int" />
+          <Property Name="Birthday" Type="date" Nullable="false" />
+          <Property Name="YearOfEmployment" Type="int" Nullable="false" />
+          <Property Name="Experience" Type="int" StoreGeneratedPattern="Computed" />
+          <Property Name="Employee_Job" Type="int" Nullable="false" />
+          <Property Name="Gender" Type="nchar" MaxLength="1" Nullable="false" />
+          <Property Name="Employee_Address" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Employee_Phone" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Job">
+          <Key>
+            <PropertyRef Name="Job_Number" />
+          </Key>
+          <Property Name="Job_Number" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Job_Title" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Job_Salary" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Product_Number" />
+          </Key>
+          <Property Name="Product_Number" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Product_Title" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Product_Department" Type="int" Nullable="false" />
+          <Property Name="Product_CountryOfOrigin" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Product_StorageConditions" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Product_ShelfLife" Type="nvarchar" MaxLength="250" />
+          <Property Name="Product_Photo" Type="nvarchar(max)" />
+          <Property Name="Product_Cost" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductSale">
+          <Key>
+            <PropertyRef Name="ProductSale_Number" />
+          </Key>
+          <Property Name="ProductSale_Number" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductSale_Employee" Type="int" Nullable="false" />
+          <Property Name="ProductSale_Date" Type="date" Nullable="false" />
+          <Property Name="ProductSale_Time" Type="time" Precision="7" Nullable="false" />
+          <Property Name="ProductSale_Product" Type="int" Nullable="false" />
+          <Property Name="ProductSale_ProductCount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="ProductSale_ProductCost" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="ProductSale_ProductAmount" Type="decimal" Precision="37" Scale="4" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <Association Name="FK__Employee__Employ__2E1BDC42">
+          <End Role="Job" Type="Self.Job" Multiplicity="1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Job">
+              <PropertyRef Name="Job_Number" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="Employee_Job" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Employee__Employ__2F10007B">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="Department_Number" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="Employee_Department" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProductSa__Produ__2C3393D0">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="ProductSale" Type="Self.ProductSale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Employee_Number" />
+            </Principal>
+            <Dependent Role="ProductSale">
+              <PropertyRef Name="ProductSale_Employee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProductSa__Produ__2D27B809">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="ProductSale" Type="Self.ProductSale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Product_Number" />
+            </Principal>
+            <Dependent Role="ProductSale">
+              <PropertyRef Name="ProductSale_Product" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Department">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="Department_Number" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="Product_Department" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище SupermarketModelContainer">
+          <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Job" EntityType="Self.Job" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductSale" EntityType="Self.ProductSale" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Employee__Employ__2E1BDC42" Association="Self.FK__Employee__Employ__2E1BDC42">
+            <End Role="Job" EntitySet="Job" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Employee__Employ__2F10007B" Association="Self.FK__Employee__Employ__2F10007B">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProductSa__Produ__2C3393D0" Association="Self.FK__ProductSa__Produ__2C3393D0">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="ProductSale" EntitySet="ProductSale" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProductSa__Produ__2D27B809" Association="Self.FK__ProductSa__Produ__2D27B809">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="ProductSale" EntitySet="ProductSale" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Department" Association="Self.FK_Product_Department">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SupermarketModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="Department_Number" />
+          </Key>
+          <Property Name="Department_Number" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Department_Title" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Department_CountersNumber" Type="Int32" Nullable="false" />
+          <Property Name="Department_SellerCount" Type="Int32" Nullable="false" />
+          <Property Name="Department_HallNumber" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK__Employee__Employ__2F10007B" FromRole="Department" ToRole="Employee" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_Product_Department" FromRole="Department" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Employee_Number" />
+          </Key>
+          <Property Name="Employee_Number" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Surname" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Firstname" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Patronymic" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Employee_Department" Type="Int32" />
+          <Property Name="Birthday" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="YearOfEmployment" Type="Int32" Nullable="false" />
+          <Property Name="Experience" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="Employee_Job" Type="Int32" Nullable="false" />
+          <Property Name="Gender" Type="String" MaxLength="1" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Employee_Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Employee_Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Department" Relationship="Self.FK__Employee__Employ__2F10007B" FromRole="Employee" ToRole="Department" />
+          <NavigationProperty Name="Job" Relationship="Self.FK__Employee__Employ__2E1BDC42" FromRole="Employee" ToRole="Job" />
+          <NavigationProperty Name="ProductSale" Relationship="Self.FK__ProductSa__Produ__2C3393D0" FromRole="Employee" ToRole="ProductSale" />
+        </EntityType>
+        <EntityType Name="Job">
+          <Key>
+            <PropertyRef Name="Job_Number" />
+          </Key>
+          <Property Name="Job_Number" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Job_Title" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Job_Salary" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK__Employee__Employ__2E1BDC42" FromRole="Job" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Product_Number" />
+          </Key>
+          <Property Name="Product_Number" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Product_Title" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Product_Department" Type="Int32" Nullable="false" />
+          <Property Name="Product_CountryOfOrigin" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Product_StorageConditions" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Product_ShelfLife" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Product_Photo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Product_Cost" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <NavigationProperty Name="Department" Relationship="Self.FK_Product_Department" FromRole="Product" ToRole="Department" />
+          <NavigationProperty Name="ProductSale" Relationship="Self.FK__ProductSa__Produ__2D27B809" FromRole="Product" ToRole="ProductSale" />
+        </EntityType>
+        <EntityType Name="ProductSale">
+          <Key>
+            <PropertyRef Name="ProductSale_Number" />
+          </Key>
+          <Property Name="ProductSale_Number" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductSale_Employee" Type="Int32" Nullable="false" />
+          <Property Name="ProductSale_Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ProductSale_Time" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="ProductSale_Product" Type="Int32" Nullable="false" />
+          <Property Name="ProductSale_ProductCount" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="ProductSale_ProductCost" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="ProductSale_ProductAmount" Type="Decimal" Precision="37" Scale="4" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK__ProductSa__Produ__2C3393D0" FromRole="ProductSale" ToRole="Employee" />
+          <NavigationProperty Name="Product" Relationship="Self.FK__ProductSa__Produ__2D27B809" FromRole="ProductSale" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK__Employee__Employ__2F10007B">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="Department_Number" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="Employee_Department" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Department">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="Department_Number" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="Product_Department" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Employee__Employ__2E1BDC42">
+          <End Role="Job" Type="Self.Job" Multiplicity="1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Job">
+              <PropertyRef Name="Job_Number" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="Employee_Job" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProductSa__Produ__2C3393D0">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="ProductSale" Type="Self.ProductSale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Employee_Number" />
+            </Principal>
+            <Dependent Role="ProductSale">
+              <PropertyRef Name="ProductSale_Employee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProductSa__Produ__2D27B809">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="ProductSale" Type="Self.ProductSale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Product_Number" />
+            </Principal>
+            <Dependent Role="ProductSale">
+              <PropertyRef Name="ProductSale_Product" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SupermarketEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Department" EntityType="Self.Department" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" />
+          <EntitySet Name="Job" EntityType="Self.Job" />
+          <EntitySet Name="Product" EntityType="Self.Product" />
+          <EntitySet Name="ProductSale" EntityType="Self.ProductSale" />
+          <AssociationSet Name="FK__Employee__Employ__2F10007B" Association="Self.FK__Employee__Employ__2F10007B">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Department" Association="Self.FK_Product_Department">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Employee__Employ__2E1BDC42" Association="Self.FK__Employee__Employ__2E1BDC42">
+            <End Role="Job" EntitySet="Job" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProductSa__Produ__2C3393D0" Association="Self.FK__ProductSa__Produ__2C3393D0">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="ProductSale" EntitySet="ProductSale" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProductSa__Produ__2D27B809" Association="Self.FK__ProductSa__Produ__2D27B809">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="ProductSale" EntitySet="ProductSale" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище SupermarketModelContainer" CdmEntityContainer="SupermarketEntities">
+          <EntitySetMapping Name="Department">
+            <EntityTypeMapping TypeName="SupermarketModel.Department">
+              <MappingFragment StoreEntitySet="Department">
+                <ScalarProperty Name="Department_Number" ColumnName="Department_Number" />
+                <ScalarProperty Name="Department_Title" ColumnName="Department_Title" />
+                <ScalarProperty Name="Department_CountersNumber" ColumnName="Department_CountersNumber" />
+                <ScalarProperty Name="Department_SellerCount" ColumnName="Department_SellerCount" />
+                <ScalarProperty Name="Department_HallNumber" ColumnName="Department_HallNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employee">
+            <EntityTypeMapping TypeName="SupermarketModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="Employee_Number" ColumnName="Employee_Number" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Firstname" ColumnName="Firstname" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="Employee_Department" ColumnName="Employee_Department" />
+                <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+                <ScalarProperty Name="YearOfEmployment" ColumnName="YearOfEmployment" />
+                <ScalarProperty Name="Experience" ColumnName="Experience" />
+                <ScalarProperty Name="Employee_Job" ColumnName="Employee_Job" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Employee_Address" ColumnName="Employee_Address" />
+                <ScalarProperty Name="Employee_Phone" ColumnName="Employee_Phone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Job">
+            <EntityTypeMapping TypeName="SupermarketModel.Job">
+              <MappingFragment StoreEntitySet="Job">
+                <ScalarProperty Name="Job_Number" ColumnName="Job_Number" />
+                <ScalarProperty Name="Job_Title" ColumnName="Job_Title" />
+                <ScalarProperty Name="Job_Salary" ColumnName="Job_Salary" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product">
+            <EntityTypeMapping TypeName="SupermarketModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="Product_Number" ColumnName="Product_Number" />
+                <ScalarProperty Name="Product_Title" ColumnName="Product_Title" />
+                <ScalarProperty Name="Product_Department" ColumnName="Product_Department" />
+                <ScalarProperty Name="Product_CountryOfOrigin" ColumnName="Product_CountryOfOrigin" />
+                <ScalarProperty Name="Product_StorageConditions" ColumnName="Product_StorageConditions" />
+                <ScalarProperty Name="Product_ShelfLife" ColumnName="Product_ShelfLife" />
+                <ScalarProperty Name="Product_Photo" ColumnName="Product_Photo" />
+                <ScalarProperty Name="Product_Cost" ColumnName="Product_Cost" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductSale">
+            <EntityTypeMapping TypeName="SupermarketModel.ProductSale">
+              <MappingFragment StoreEntitySet="ProductSale">
+                <ScalarProperty Name="ProductSale_Number" ColumnName="ProductSale_Number" />
+                <ScalarProperty Name="ProductSale_Employee" ColumnName="ProductSale_Employee" />
+                <ScalarProperty Name="ProductSale_Date" ColumnName="ProductSale_Date" />
+                <ScalarProperty Name="ProductSale_Time" ColumnName="ProductSale_Time" />
+                <ScalarProperty Name="ProductSale_Product" ColumnName="ProductSale_Product" />
+                <ScalarProperty Name="ProductSale_ProductCount" ColumnName="ProductSale_ProductCount" />
+                <ScalarProperty Name="ProductSale_ProductCost" ColumnName="ProductSale_ProductCost" />
+                <ScalarProperty Name="ProductSale_ProductAmount" ColumnName="ProductSale_ProductAmount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
