@@ -43,7 +43,7 @@
         
         <StackPanel Orientation="Horizontal" Margin="5" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">
             <TextBlock Text="Цена: "  Width="200" FontSize="20"/>
-            <TextBox Text="{Binding Product_Cost}" FontSize="20"/>
+            <TextBox Name="ProdCost" FontSize="20"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="5" Grid.Column="1" Grid.Row="2"  VerticalAlignment="Center">
             <TextBlock Text="Производитель: " Width="200" FontSize="20"/>
