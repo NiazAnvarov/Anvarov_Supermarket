@@ -55,7 +55,7 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="5" Grid.Column="1" Grid.Row="4" VerticalAlignment="Center">
             <TextBlock Text="Срок годности: " Width="200" FontSize="20"/>
-            <TextBox Text="{Binding Product_ShelfLife}" FontSize="20"/>
+            <TextBox Name="Srok_godn" FontSize="20"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="5" Grid.Column="1" Grid.Row="5" VerticalAlignment="Center">
             <TextBlock Text="Условия хранения: " Width="200" FontSize="20"/>
@@ -63,8 +63,8 @@
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2" Grid.Row="6" HorizontalAlignment="Center">
-            <Button Name="SaveBtn" Content="Сохранить" Click="SaveBtn_Click" Margin="10" HorizontalAlignment="Center"/>
-            <Button Name="DeleteBtn" Content="Удалить" Click="DeleteBtn_Click" Margin="10" HorizontalAlignment="Center"/>
+            <Button Name="SaveBtn" Content="Сохранить" Click="SaveBtn_Click" FontSize="20" Margin="10" HorizontalAlignment="Center"/>
+            <Button Name="DeleteBtn" Content="Удалить" Click="DeleteBtn_Click" FontSize="20" Margin="10" HorizontalAlignment="Center"/>
         </StackPanel>
         
 

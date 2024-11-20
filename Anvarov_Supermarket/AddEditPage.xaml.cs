@@ -41,6 +41,7 @@ namespace Anvarov_Supermarket
                 DeleteBtn.Visibility = Visibility.Visible;
                 check = true;
                 currentProduct = SelectedProduct;
+                Srok_godn.Text = currentProduct.Product_SrokGodnosty;
                 DepCombox.SelectedIndex = currentProduct.Product_Department - 1;
                 ProdCost.Text = currentProduct.Product_Cost.ToString();
             }
@@ -92,14 +93,20 @@ namespace Anvarov_Supermarket
                 return;
             }
 
-            if(string.IsNullOrWhiteSpace(currentProduct.Product_ShelfLife))
+            if(string.IsNullOrWhiteSpace(Srok_godn.Text))
             {
-                currentProduct.Product_ShelfLife = null;
+                currentProduct.Product_ShelfLife = "Нет";
+            }
+            else
+            {
+                currentProduct.Product_ShelfLife = Srok_godn.Text;
             }
             if(string.IsNullOrWhiteSpace(currentProduct.Product_StorageConditions))
             {
                 currentProduct.Product_StorageConditions = "Нет";
             }
+
+                
 
             currentProduct.Product_Cost = decimal.Parse(ProdCost.Text);
             currentProduct.Product_Department = DepCombox.SelectedIndex + 1;
